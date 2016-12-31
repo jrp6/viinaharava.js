@@ -1,3 +1,12 @@
+Viinaharava.js - A Winesweeper game in ReactJS
+
+Copyright © 2016 Juho Rinta-Paavola <juhorp@juhorp.fi>
+This work is free. You can redistribute it and/or modify it under the
+terms of the Do What The Fuck You Want To Public License, Version 2,
+as published by Sam Hocevar. See the COPYING file for more details.
+
+----
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
