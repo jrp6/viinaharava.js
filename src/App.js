@@ -40,9 +40,12 @@ class Board extends Component {
     componentWillMount() {
 	const squares = this.state.squares.slice();
 
-        // Initialize the board with zeroes
+        // Initialize the board with invisible zeroes
 	for (let i = 0; i < BOARD_HEIGHT; i++) {
-	    squares[i] = Array(BOARD_WIDTH).fill("0");
+            squares[i] = [];
+            for (let j = 0; j < BOARD_WIDTH; j++) {
+                squares[i].push({ value: "0", visible: false });
+            }
 	}
 
         // Randomly pick some wines
@@ -55,15 +58,15 @@ class Board extends Component {
         shuffle(coords);
         for (let i = 0; i < BOARD_WINES; i++) {
             const coord = coords[i];
-            squares[coord.y][coord.x] = "*"
+            squares[coord.y][coord.x].value = "*"
             // Update neighbours
             for (let dy = -1; dy <= 1; dy++) {
                 for (let dx = -1; dx <= 1; dx++) {
                     const newY = coord.y + dy;
                     const newX = coord.x + dx;
                     if (squares[newY] !== undefined && squares[newY][newX] !== undefined &&
-                        squares[newY][newX] !== "*") {
-                        squares[newY][newX] = String(Number(squares[newY][newX]) + 1);
+                        squares[newY][newX].value !== "*") {
+                        squares[newY][newX].value = String(Number(squares[newY][newX].value) + 1);
                     }
                 }
             }
@@ -76,7 +79,7 @@ class Board extends Component {
                    key={y * BOARD_WIDTH + x}
                    x={x}
                    y={y}
-                   value={this.state.squares[y][x]}
+                   value={this.state.squares[y][x].value}
                    onClick={this.handleClick}
                />;
     }
