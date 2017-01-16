@@ -16,7 +16,7 @@ function shuffle(a) {
 function Square(props) {
     return (
  	<button className="Square" onClick={() => props.onClick(props.x, props.y)}>
- 	    {props.value}
+ 	    {props.visible ? props.value : "_"}
  	</button>
     );
 }
@@ -72,7 +72,7 @@ class Board extends Component {
             }
         }
         
-	this.setState({ squares: squares })
+	this.setState({ squares: squares });
     }
     renderSquare(x, y) {
 	return <Square
@@ -80,11 +80,23 @@ class Board extends Component {
                    x={x}
                    y={y}
                    value={this.state.squares[y][x].value}
+                   visible={this.state.squares[y][x].visible}
                    onClick={this.handleClick}
                />;
     }
     handleClick(x, y) {
-        console.log(x + ", " + y + " clicked");
+        const squares = this.state.squares.slice();
+        if (squares[y] !== undefined && squares[y][x] !== undefined && !squares[y][x].visible) {
+            squares[y][x].visible = true;
+            if (squares[y][x].value === "0") {
+                for (let dy = -1; dy <= 1; dy++) {
+                    for (let dx = -1; dx <= 1; dx++) {
+                        this.handleClick(x + dx, y + dy);
+                    }
+                }
+            }
+            this.setState({ squares: squares });
+        }
     }
     render() {
 	// Render the squares
