@@ -32,6 +32,8 @@ class Board extends Component {
 	this.state = {
 	    // N.B. the Array contains rows, i.e. indexing is squares[y][x]
 	    squares: Array(BOARD_HEIGHT).fill(null),
+            isPlayerWin: false,
+            isPlayerLoss: false,
 	};
 
         this.renderSquare = this.renderSquare.bind(this);
@@ -88,6 +90,9 @@ class Board extends Component {
         const squares = this.state.squares.slice();
         if (squares[y] !== undefined && squares[y][x] !== undefined && !squares[y][x].visible) {
             squares[y][x].visible = true;
+            if (squares[y][x].value === "*") {
+                this.setState({ isPlayerLoss: true });
+            }
             if (squares[y][x].value === "0") {
                 for (let dy = -1; dy <= 1; dy++) {
                     for (let dx = -1; dx <= 1; dx++) {
@@ -113,6 +118,9 @@ class Board extends Component {
 	});
 	return (
 	    <div className="gameBoard">
+                <div className="status">
+                    {this.state.isPlayerWin ? "8)" : this.state.isPlayerLoss ? ":(" : ":)"}
+                </div>
 	        {board}
 	    </div>
 	);
