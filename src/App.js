@@ -12,6 +12,18 @@ function shuffle(a) {
     }
 }
 
+function nofUnrevealed(squares) {
+    let counter = 0;
+    for (let y = 0; y < BOARD_HEIGHT; y++) {
+        for (let x = 0; x < BOARD_WIDTH; x++) {
+            if (!squares[y][x].visible) {
+                counter++;
+            }
+        }
+    }
+    return counter;
+}
+
 
 function Square(props) {
     return (
@@ -96,8 +108,9 @@ class Board extends Component {
             squares[y][x].visible = true;
             if (squares[y][x].value === "*") {
                 this.setState({ isPlayerLoss: true });
-            }
-            if (squares[y][x].value === "0") {
+            } else if (nofUnrevealed(squares) === BOARD_WINES) {
+                this.setState({ isPlayerWin: true });
+            } else if (squares[y][x].value === "0") {
                 for (let dy = -1; dy <= 1; dy++) {
                     for (let dx = -1; dx <= 1; dx++) {
                         this.handleClick(x + dx, y + dy);
