@@ -38,6 +38,7 @@ class Board extends Component {
 
         this.renderSquare = this.renderSquare.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.isGameOver = this.isGameOver.bind(this);
     }
     componentWillMount() {
 	const squares = this.state.squares.slice();
@@ -86,9 +87,12 @@ class Board extends Component {
                    onClick={this.handleClick}
                />;
     }
+    isGameOver() {
+        return this.state.isPlayerLoss || this.state.isPlayerWin;
+    }
     handleClick(x, y) {
         const squares = this.state.squares.slice();
-        if (squares[y] !== undefined && squares[y][x] !== undefined && !squares[y][x].visible) {
+        if (!this.isGameOver() && squares[y] !== undefined && squares[y][x] !== undefined && !squares[y][x].visible) {
             squares[y][x].visible = true;
             if (squares[y][x].value === "*") {
                 this.setState({ isPlayerLoss: true });
